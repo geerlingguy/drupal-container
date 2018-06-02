@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Build the Docker container from the Dockerfile.
+      docker_image:
+        path: ./
+        name: geerlingguy/drupal
+        tag: latest

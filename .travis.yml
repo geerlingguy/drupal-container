@@ -1,0 +1,18 @@
+---
+language: python
+services: docker
+
+install:
+  # Install Ansible.
+  - pip install ansible docker-py
+
+script:
+  # Build the container.
+  - ansible-playbook main.yml
+
+  # Verify the container runs and has the correct PHP version.
+  - docker run -d --name=drupal -p 8080:80 geerlingguy/drupal:latest /usr/sbin/apache2ctl -D FOREGROUND
+  - curl http://localhost:8080/
+
+# notifications:
+#   webhooks: https://galaxy.ansible.com/api/v1/notifications/
