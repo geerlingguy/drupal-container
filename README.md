@@ -1,8 +1,6 @@
 # Drupal Container (Built with Ansible)
 
-[![Build Status](https://travis-ci.org/geerlingguy/php-apache-container.svg?branch=master)](https://travis-ci.org/geerlingguy/php-apache-container) [![](https://images.microbadger.com/badges/image/geerlingguy/php-apache.svg)](https://microbadger.com/images/geerlingguy/php-apache "Get your own image badge on microbadger.com")
-
-This project is in it's early stages. _There will be bugs!_ You may be better served using the [official Drupal Docker image](https://hub.docker.com/_/drupal/) if it meets your requirements.
+[![Build Status](https://travis-ci.org/geerlingguy/drupal-container.svg?branch=master)](https://travis-ci.org/geerlingguy/drupal-container) [![](https://images.microbadger.com/badges/image/geerlingguy/drupal.svg)](https://microbadger.com/images/geerlingguy/drupal "Get your own image badge on microbadger.com")
 
 This project is composed of three main parts:
 
@@ -18,37 +16,37 @@ Currently maintained versions include:
 
 ## Standalone Usage
 
-If you want to use the `geerlingguy/drupal` image from Docker Hub, you don't need to install or use this project at all. You can quickly build a Drupal container locally with:
-
-    docker run -d --name=drupal -p 80:80 geerlingguy/drupal:latest /usr/sbin/apache2ctl -D FOREGROUND
-
-You can also wrap up that configuration in a `Dockerfile` and/or a `docker-compose.yml` file if you want to keep things simple. For example:
-
-    version: "3"
-    
-    services:
-      php-apache:
-        image: geerlingguy/drupal:latest
-        container_name: drupal
-        ports:
-          - "80:80"
-        restart: always
-        # See 'Custom Drupal codebase' for instructions for volumes.
-        volumes:
-          - ./web:/var/www/html:rw,delegated
-        command: ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
-
-Then run:
+The easiest way to use this Docker image is to place the `docker-compose.yml` file included with this project in your Drupal site's root directory, then customize it to your liking, and run:
 
     docker-compose up -d
 
-Now you should be able to access the Drupal site at `http://localhost/`.
+You should be able to access the Drupal site at `http://localhost/`.
+
+The following environment variables affect what's written to the database connection settings file, and the defaults follow the variable name:
+
+  - `DRUPAL_DATABASE_NAME=drupal`
+  - `DRUPAL_DATABASE_USERNAME=drupal`
+  - `DRUPAL_DATABASE_PASSWORD=drupal`
+  - `DRUPAL_DATABASE_HOST=mysql`
+  - `DRUPAL_DATABASE_PORT=3306`
+
+To get your Drupal codebase into the container, you can either `COPY` it in using a Dockerfile, or mount a volume (e.g. when using the image for development). The included `docker-compose.yml` file assumes you have a Drupal codebase at the path `./web`, but you can customize the volume mount to point to wherever your Drupal docroot exists.
+
+### Include the Database connection settings
+
+Since it's best practice to _not_ include secrets like database credentials in your codebase, this Docker container places connection details into special settings files, which you can include in your Drupal site's `settings.php` file.
+
+To set up the database connection, include the following lines at the end of your Drupal site's `settings.php` file:
+
+    if (file_exists('/var/www/settings/database.php')) {
+      require '/var/www/settings/database.php';
+    }
 
 ## Management with Ansible
 
 ### Prerequisites
 
-Before using this project to build and maintain PHP images for Docker, you need to have the following installed:
+Before using this project to build and maintain Drupal images for Docker, you need to have the following installed:
 
   - [Docker Community Edition](https://docs.docker.com/engine/installation/) (for Mac, Windows, or Linux)
   - [Ansible](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
