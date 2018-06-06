@@ -2,28 +2,23 @@
 #
 # Drupal container entrypoint.
 #
-# This entrypoint script adds settings files which can be included in a Drupal
-# site's settings.php file.
+# This entrypoint script will create a new Drupal codebase if one is not already
+# present in the /var/www/html directory.
 
 set -e
 
-# Make a directory for settings files.
-mkdir -p /var/www/settings
+# Set Drupal major version.
+DRUPAL_DOWNLOAD_VERSION="8.6.x-dev"
+DRUPAL_DOWNLOAD_URL="https://ftp.drupal.org/files/projects/drupal-$DRUPAL_DOWNLOAD_VERSION.tar.gz"
 
-# Write a Database connection settings file to /var/www/settings/database.php.
-cat >/var/www/settings/database.php <<EOF
-<?php
-\$databases['default']['default'] = [
-  'database' => '${DRUPAL_DATABASE_NAME:-drupal}',
-  'username' => '${DRUPAL_DATABASE_USERNAME:-drupal}',
-  'password' => '${DRUPAL_DATABASE_PASSWORD:-drupal}',
-  'host' => '${DRUPAL_DATABASE_HOST:-mysql}',
-  'port' => '${DRUPAL_DATABASE_PORT:-3306}',
-  'driver' => 'mysql',
-  'prefix' => '',
-  'collation' => 'utf8mb4_general_ci',
-  'charset' => 'utf8mb4',
-];
-EOF
+# Download Drupal to /var/www/html if it's not present.
+if [ ! -f /var/www/html/index.php ]; then
+  echo "Downloading Drupal $DRUPAL_DOWNLOAD_VERSION ..."
+  curl -O $DRUPAL_DOWNLOAD_URL
+  echo "Expanding Drupal into /var/www/html ..."
+  tar -xzf drupal-$DRUPAL_DOWNLOAD_VERSION.tar.gz -C /var/www/html --strip-components=1
+  rm drupal-$DRUPAL_DOWNLOAD_VERSION.tar.gz
+  echo "Download complete!"
+fi
 
 exec "$@"

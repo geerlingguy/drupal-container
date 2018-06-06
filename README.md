@@ -22,25 +22,26 @@ The easiest way to use this Docker image is to place the `docker-compose.yml` fi
 
 You should be able to access the Drupal site at `http://localhost/`.
 
-The following environment variables affect what's written to the database connection settings file, and the defaults follow the variable name:
-
-  - `DRUPAL_DATABASE_NAME=drupal`
-  - `DRUPAL_DATABASE_USERNAME=drupal`
-  - `DRUPAL_DATABASE_PASSWORD=drupal`
-  - `DRUPAL_DATABASE_HOST=mysql`
-  - `DRUPAL_DATABASE_PORT=3306`
+### Drupal codebase
 
 To get your Drupal codebase into the container, you can either `COPY` it in using a Dockerfile, or mount a volume (e.g. when using the image for development). The included `docker-compose.yml` file assumes you have a Drupal codebase at the path `./web`, but you can customize the volume mount to point to wherever your Drupal docroot exists.
 
-### Include the Database connection settings
+If you don't supply a Drupal codebase in the container in `/var/www/html`, this container's `docker-entrypoint.sh` script will download Drupal for you (using the `DRUPAL_DOWNLOAD_VERSION`). By default the image uses the latest development release of Drupal, but you can override it and install a specific version by setting `DRUPAL_DOWNLOAD_VERSION` to that version number (e.g. `8.5.3`).
 
-Since it's best practice to _not_ include secrets like database credentials in your codebase, this Docker container places connection details into special settings files, which you can include in your Drupal site's `settings.php` file.
+### Settings in `settings.php`
 
-To set up the database connection, include the following lines at the end of your Drupal site's `settings.php` file:
+Since it's best practice to _not_ include secrets like database credentials in your codebase, this Docker container recommends putting connection details into runtime environment variables, which you can include in your Drupal site's `settings.php` file via `getenv()`.
 
-    if (file_exists('/var/www/settings/database.php')) {
-      require '/var/www/settings/database.php';
-    }
+For example, to set up the database connection, pass settings like `DRUPAL_DATABASE_NAME`:
+
+    $databases['default']['default'] = [
+      'driver' => 'mysql',
+      'database' => getenv('DRUPAL_DATABASE_NAME'),
+      'username' => getenv('DRUPAL_DATABASE_USERNAME'),
+      'password' => getenv('DRUPAL_DATABASE_PASSWORD'),
+      'host' => getenv('DRUPAL_DATABASE_HOST'),
+      'port' => getenv('DRUPAL_DATABASE_PORT'),
+    ];
 
 ## Management with Ansible
 
@@ -60,6 +61,12 @@ Make sure Docker is running, and run the playbook to build the container image:
 Once the image is built, you can run `docker images` to see the `drupal` image that was generated.
 
 > Note: If you get an error like `Failed to import docker-py`, run `pip install docker-py`.
+
+If you want to quickly run the image and test that the `docker-entrypoint.sh` script works to grab a copy of the Drupal codebase, run it with:
+
+    docker run -d -p 80:80 -v $PWD/web:/var/www/html:rw,delegated geerlingguy/drupal
+
+Then visit [http://localhost/](http://localhost/), and (after Drupal is downloaded and expanded) you should see the Drupal installer!
 
 ### Push the image to Docker Hub
 
