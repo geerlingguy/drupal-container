@@ -76,10 +76,6 @@ Currently, the process for updating this image on Docker Hub is manual. Eventual
 
          docker login --username=geerlingguy
 
-  1. Tag the latest version (only if this is the latest/default version):
-
-         docker tag [image id] geerlingguy/drupal:latest
-
   1. Push to Docker Hub:
 
          docker push geerlingguy/drupal:latest

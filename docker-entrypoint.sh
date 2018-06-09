@@ -17,6 +17,7 @@ if [ ! -f /var/www/html/index.php ]; then
   curl -O $DRUPAL_DOWNLOAD_URL
   echo "Expanding Drupal into /var/www/html ..."
   tar -xzf drupal-$DRUPAL_DOWNLOAD_VERSION.tar.gz -C /var/www/html --strip-components=1
+  chown -R www-data:www-data /var/www/html
   rm drupal-$DRUPAL_DOWNLOAD_VERSION.tar.gz
   echo "Download complete!"
 fi
