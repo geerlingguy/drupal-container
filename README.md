@@ -13,6 +13,7 @@ This project is composed of three main parts:
 Currently maintained versions include:
 
   - `latest`
+  - `latest-arm32v7`
 
 ## Standalone Usage
 
@@ -79,6 +80,7 @@ Currently, the process for updating this image on Docker Hub is manual. Eventual
   1. Push to Docker Hub:
 
          docker push geerlingguy/drupal:latest
+         docker push geerlingguy/drupal:latest-arm32v7
 
 ## License
 

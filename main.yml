@@ -4,8 +4,27 @@
   gather_facts: no
 
   tasks:
-    - name: Build the Docker container from the Dockerfile.
+    - name: Build the x86 Docker image from the main Dockerfile.
       docker_image:
         path: ./
+        nocache: yes
         name: geerlingguy/drupal
         tag: latest
+
+    - name: Copy entrypoint into arm32v7 folder temporarily.
+      copy:
+        src: docker-entrypoint.sh
+        dest: arm32v7/docker-entrypoint.sh
+        mode: 0755
+
+    - name: Build the arm32v7 Docker image from the arm Dockerfile.
+      docker_image:
+        path: ./arm32v7/
+        nocache: yes
+        name: geerlingguy/drupal
+        tag: latest-arm32v7
+
+    - name: Remove temporary entrypoint file.
+      file:
+        path: arm32v7/docker-entrypoint.sh
+        state: absent
