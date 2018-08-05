@@ -14,7 +14,7 @@ DRUPAL_DOWNLOAD_URL="https://ftp.drupal.org/files/projects/drupal-$DRUPAL_DOWNLO
 # Download Drupal to /var/www/html if it's not present.
 if [ ! -f /var/www/html/index.php ]; then
   echo "Removing any existing files inside /var/www/html ..."
-  rm -rf /var/www/html/*
+  find /var/www/html -type f -maxdepth 1 -delete
   echo "Downloading Drupal $DRUPAL_DOWNLOAD_VERSION ..."
   curl -O $DRUPAL_DOWNLOAD_URL
   echo "Download complete!"
