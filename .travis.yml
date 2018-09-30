@@ -12,4 +12,18 @@ script:
 
   # Verify the container runs and has the correct PHP version.
   - docker run -d --name=drupal -p 8080:80 geerlingguy/drupal:latest /usr/sbin/apache2ctl -D FOREGROUND
-  - curl http://localhost:8080/
+  - |
+    attempts=0
+    max_attempts=60
+
+    echo "Waiting for Drupal to complete setup."
+    until $(curl --output /dev/null --silent --head --fail http://localhost:8080/); do
+        if [ ${attempts} -eq ${max_attempts} ];then
+          echo "Timeout while waiting for Drupal to complete setup."
+          exit 1
+        fi
+
+        printf '.'
+        attempts=$(($attempts+1))
+        sleep 5
+    done
