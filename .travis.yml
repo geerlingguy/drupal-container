@@ -8,11 +8,8 @@ install:
 
 script:
   # Build the container.
-  - ansible-playbook main.yml
+  - 'ansible-playbook main.yml --extra-vars "{build_arm: false}"'
 
   # Verify the container runs and has the correct PHP version.
   - docker run -d --name=drupal -p 8080:80 geerlingguy/drupal:latest /usr/sbin/apache2ctl -D FOREGROUND
   - curl http://localhost:8080/
-
-# notifications:
-#   webhooks: https://galaxy.ansible.com/api/v1/notifications/

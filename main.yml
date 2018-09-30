@@ -3,6 +3,10 @@
   connection: local
   gather_facts: no
 
+  vars:
+    # Whether to build the arm version of the container.
+    build_arm: true
+
   tasks:
     - name: Build the x86 Docker image from the main Dockerfile.
       docker_image:
@@ -23,6 +27,7 @@
         nocache: yes
         name: geerlingguy/drupal
         tag: latest-arm32v7
+      when: build_arm
 
     - name: Remove temporary entrypoint file.
       file:
