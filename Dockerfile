@@ -1,4 +1,4 @@
-FROM geerlingguy/php-apache:7.1
+FROM geerlingguy/php-apache:7.2
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh / # For backwards compatibility.

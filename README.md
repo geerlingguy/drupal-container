@@ -67,7 +67,7 @@ If you want to quickly run the image and test that the `docker-entrypoint.sh` sc
 
     docker run -d -p 80:80 -v $PWD/web:/var/www/html:rw,delegated geerlingguy/drupal
 
-Then visit [http://localhost/](http://localhost/), and (after Drupal is downloaded and expanded) you should see the Drupal installer!
+Then visit [http://localhost/](http://localhost/), and (after Drupal is downloaded and expanded) you should see the Drupal installer! You can drop the volume mount (`-v`) for a much faster startup, but then the codebase is downloaded and stored inside the container, and will vanish when you stop it.
 
 ### Push the image to Docker Hub
 
