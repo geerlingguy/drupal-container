@@ -11,9 +11,10 @@
     - name: Build the x86 Docker image from the main Dockerfile.
       docker_image:
         path: ./
-        nocache: yes
+        nocache: true
         name: geerlingguy/drupal
         tag: latest
+        force: true
       when: build_x86
 
     - name: Copy entrypoint into arm32v7 folder temporarily.
@@ -25,9 +26,10 @@
     - name: Build the arm32v7 Docker image from the arm Dockerfile.
       docker_image:
         path: ./arm32v7/
-        nocache: yes
+        nocache: true
         name: geerlingguy/drupal
         tag: latest-arm32v7
+        force: true
       when: build_arm
 
     - name: Remove temporary entrypoint file.

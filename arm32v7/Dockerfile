@@ -3,8 +3,8 @@ FROM resin/rpi-raspbian:stretch
 # Install Apache, PHP
 RUN sudo apt-get update \
     && sudo apt-get install -y \
-       apache2 libapache2-mod-php libpcre3-dev \
-       php7.0-common php7.0-dev php7.0-gd php7.0-curl php7.0-imap php7.0-json php7.0-opcache php7.0-xml php7.0-mbstring php7.0-mysql php-apcu \
+       apache2 libapache2-mod-php libpcre3-dev unzip \
+       php7.0-common php7.0-dev php7.0-gd php7.0-curl php7.0-imap php7.0-json php7.0-opcache php7.0-xml php7.0-mbstring php7.0-mysql php7.0-zip php-apcu \
        mysql-client \
     && rm -rf /var/lib/apt/lists/*
 
