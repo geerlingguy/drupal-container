@@ -4,7 +4,7 @@
   gather_facts: no
 
   vars:
-    # Whether to build the arm version of the container.
+    build_x86: true
     build_arm: true
 
   tasks:
@@ -14,6 +14,7 @@
         nocache: yes
         name: geerlingguy/drupal
         tag: latest
+      when: build_x86
 
     - name: Copy entrypoint into arm32v7 folder temporarily.
       copy:
