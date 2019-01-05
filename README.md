@@ -21,7 +21,7 @@ The easiest way to use this Docker image is to place the `docker-compose.yml` fi
 
     docker-compose up -d
 
-You should be able to access the Drupal site at `http://localhost/`.
+You should be able to access the Drupal site at `http://localhost/`, and if you're installing the first time, the Drupal installer UI should appear. Follow the directions and you'll end up with a brand new Drupal site!
 
 ### Drupal codebase
 
@@ -44,6 +44,8 @@ For example, to set up the database connection, pass settings like `DRUPAL_DATAB
       'port' => getenv('DRUPAL_DATABASE_PORT'),
     ];
 
+You may also want to set a `DRUPAL_HASH_SALT` environment variable to drive the `$settings['hash_salt']` setting.
+
 ## Management with Ansible
 
 ### Prerequisites
@@ -58,6 +60,9 @@ Before using this project to build and maintain Drupal images for Docker, you ne
 Make sure Docker is running, and run the playbook to build the container image:
 
     ansible-playbook main.yml
+    
+    # Or just build one platform version (e.g. x86):
+    ansible-playbook main.yml --extra-vars "{build_x86: true, build_arm: false}"
 
 Once the image is built, you can run `docker images` to see the `drupal` image that was generated.
 

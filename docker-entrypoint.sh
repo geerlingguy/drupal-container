@@ -7,21 +7,39 @@
 
 set -e
 
-# Set Drupal major version.
-DRUPAL_DOWNLOAD_VERSION="8.6.x-dev"
-DRUPAL_DOWNLOAD_URL="https://ftp.drupal.org/files/projects/drupal-$DRUPAL_DOWNLOAD_VERSION.tar.gz"
+# Download the latest stable release of Drupal.
+DRUPAL_DOWNLOAD_URL="https://www.drupal.org/download-latest/tar.gz"
 
 # Download Drupal to /var/www/html if it's not present.
 if [ ! -f /var/www/html/index.php ]; then
-  echo "Removing any existing files inside /var/www/html ..."
+  echo "Removing any existing files inside /var/www/html..."
   find /var/www/html -type f -maxdepth 1 -delete
-  echo "Downloading Drupal $DRUPAL_DOWNLOAD_VERSION ..."
-  curl -O $DRUPAL_DOWNLOAD_URL
+
+  echo "Downloading Drupal..."
+  cd /var/www/html
+  curl -sSL $DRUPAL_DOWNLOAD_URL | tar -xz --strip-components=1
+  mkdir -p /var/www/config/sync
   echo "Download complete!"
-  echo "Expanding Drupal into /var/www/html ..."
-  tar -xzf drupal-$DRUPAL_DOWNLOAD_VERSION.tar.gz -C /var/www/html --strip-components=1
+
+  echo "Configuring settings.php with environment variables..."
+  cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php
+  cat <<EOF >> /var/www/html/sites/default/settings.php
+\$databases['default']['default'] = array (
+  'database' => '$DRUPAL_DATABASE_NAME',
+  'username' => '$DRUPAL_DATABASE_USERNAME',
+  'password' => '$DRUPAL_DATABASE_PASSWORD',
+  'prefix' => '',
+  'host' => '$DRUPAL_DATABASE_HOST',
+  'port' => '$DRUPAL_DATABASE_PORT',
+  'namespace' => 'Drupal\\\\Core\\\\Database\\\\Driver\\\\mysql',
+  'driver' => 'mysql',
+);
+\$config_directories['sync'] = '../config/sync';
+\$settings['hash_salt'] = '$DRUPAL_HASH_SALT';
+EOF
+
+  echo "Correcting permissions on /var/www/html..."
   chown -R www-data:www-data /var/www/html
-  rm drupal-$DRUPAL_DOWNLOAD_VERSION.tar.gz
   echo "Drupal codebase ready!"
 fi
 
