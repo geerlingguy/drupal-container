@@ -2,6 +2,10 @@
 language: python
 services: docker
 
+before_install:
+  # Stop MySQL.
+  - sudo service mysql stop
+
 install:
   # Install Ansible.
   - pip install ansible docker-py
