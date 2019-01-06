@@ -2,10 +2,6 @@
 language: python
 services: docker
 
-before_install:
-  # Stop Apache.
-  - sudo service apache2 stop
-
 install:
   # Install Ansible.
   - pip install ansible docker-py
