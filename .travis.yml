@@ -2,22 +2,26 @@
 language: python
 services: docker
 
+before_install:
+  # Stop Apache.
+  - sudo service apache2 stop
+
 install:
   # Install Ansible.
   - pip install ansible docker-py
 
 script:
-  # Build the container.
+  # Build the Drupal environment.
   - 'ansible-playbook main.yml --extra-vars "{build_arm: false}"'
 
-  # Verify the container runs and has the correct PHP version.
-  - docker run -d --name=drupal -p 8080:80 geerlingguy/drupal:latest /usr/sbin/apache2ctl -D FOREGROUND
+  # Verify we get a response from the site.
+  - docker-compose up -d
   - |
     attempts=0
     max_attempts=60
 
     echo "Waiting for Drupal to complete setup."
-    until $(curl --output /dev/null --silent --head --fail http://localhost:8080/); do
+    until $(curl --output /dev/null --silent --head --fail http://localhost/); do
         if [ ${attempts} -eq ${max_attempts} ];then
           echo "Timeout while waiting for Drupal to complete setup."
           exit 1
