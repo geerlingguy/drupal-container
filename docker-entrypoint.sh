@@ -10,8 +10,11 @@ set -e
 # Download the latest stable release of Drupal.
 DRUPAL_DOWNLOAD_URL="https://www.drupal.org/download-latest/tar.gz"
 
+# Allow container to skip the download by setting this to false.
+DRUPAL_DOWNLOAD_IF_NOT_PRESENT=true
+
 # Download Drupal to /var/www/html if it's not present.
-if [ ! -f /var/www/html/index.php ]; then
+if [ ! -f /var/www/html/index.php ] && [ $DRUPAL_DOWNLOAD_IF_NOT_PRESENT = true ]; then
   echo "Removing any existing files inside /var/www/html..."
   find /var/www/html -type f -maxdepth 1 -delete
 

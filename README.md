@@ -23,6 +23,8 @@ The easiest way to use this Docker image is to place the `docker-compose.yml` fi
 
 You should be able to access the Drupal site at `http://localhost/`, and if you're installing the first time, the Drupal installer UI should appear. Follow the directions and you'll end up with a brand new Drupal site!
 
+The image downloads Drupal into `/var/www/html` if you don't have a Drupal codebase mounted into that path by default. You can override this behavior (if, for example, you are sharing your codebase into `/var/www/html/web` or elsewhere).
+
 ### Drupal codebase
 
 To get your Drupal codebase into the container, you can either `COPY` it in using a Dockerfile, or mount a volume (e.g. when using the image for development). The included `docker-compose.yml` file assumes you have a Drupal codebase at the path `./web`, but you can customize the volume mount to point to wherever your Drupal docroot exists.
