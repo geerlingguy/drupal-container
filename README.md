@@ -48,6 +48,10 @@ For example, to set up the database connection, pass settings like `DRUPAL_DATAB
 
 You may also want to set a `DRUPAL_HASH_SALT` environment variable to drive the `$settings['hash_salt']` setting.
 
+### Custom Apache document root
+
+The default Apache document root is `/var/www/html`. If your codebase needs to use a different docroot (e.g. `/var/www/html/web` for Composer-built Drupal projects), you should set the environment variable `APACHE_DOCUMENT_ROOT` to the appropriate directory, and the container will change the docroot when it starts up.
+
 ## Management with Ansible
 
 ### Prerequisites
