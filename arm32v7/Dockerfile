@@ -1,8 +1,8 @@
 FROM balenalib/raspberrypi3-debian:stretch
 
-# Add Ondrej Sury's apt repo.
+# Add Ondrej Sury's apt repo and requirements.
 RUN sudo apt-get update \
-    && sudo apt-get install apt-transport-https lsb-release ca-certificates wget \
+    && sudo apt-get install apt-transport-https lsb-release ca-certificates wget git \
     && sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
     && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list \
     && rm -rf /var/lib/apt/lists/*

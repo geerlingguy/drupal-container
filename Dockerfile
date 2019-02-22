@@ -1,7 +1,7 @@
 FROM geerlingguy/php-apache:7.2
 
 RUN apt-get update \
-    && apt-get install -y mysql-client \
+    && apt-get install -y mysql-client git \
     && rm -rf /var/lib/apt/lists/*
 
 COPY docker-entrypoint.sh /usr/local/bin/
