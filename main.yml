@@ -13,6 +13,7 @@
         build:
           path: ./
           nocache: true
+          pull: true
         name: geerlingguy/drupal
         tag: latest
         source: build
@@ -34,7 +35,7 @@
         tag: latest-arm32v7
         source: build
         force_source: true
-      when: build_arm
+      when: build_arm | bool
 
     - name: Remove temporary entrypoint file.
       file:
