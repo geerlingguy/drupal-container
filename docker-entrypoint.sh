@@ -7,6 +7,9 @@
 
 set -e
 
+# Allow container to specify skipping cert validation.
+DRUPAL_DOWNLOAD_VERIFY_CERT=${DRUPAL_DOWNLOAD_VERIFY_CERT:-true}
+
 # Download the latest stable release of Drupal.
 DRUPAL_DOWNLOAD_URL="https://www.drupal.org/download-latest/tar.gz"
 
@@ -26,7 +29,11 @@ if [ ! -f /var/www/html/index.php ] && [ $DRUPAL_DOWNLOAD_IF_NOT_PRESENT = true 
 
   echo "Downloading Drupal..."
   cd /var/www/html
-  curl -sSL $DRUPAL_DOWNLOAD_URL | tar -xz --strip-components=1
+  if [ $DRUPAL_DOWNLOAD_VERIFY_CERT = true ]; then
+    curl -sSL $DRUPAL_DOWNLOAD_URL | tar -xz --strip-components=1
+  else
+    curl -sSLk $DRUPAL_DOWNLOAD_URL | tar -xz --strip-components=1
+  fi
   mkdir -p /var/www/config/sync
   echo "Download complete!"
 

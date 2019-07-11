@@ -1,7 +1,7 @@
-FROM geerlingguy/php-apache:7.2
+FROM geerlingguy/php-apache:7.3
 
 RUN apt-get update \
-    && apt-get install -y mysql-client git \
+    && apt-get install -y mariadb-client git \
     && rm -rf /var/lib/apt/lists/*
 
 COPY docker-entrypoint.sh /usr/local/bin/

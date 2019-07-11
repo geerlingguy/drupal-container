@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi3-debian:stretch
+FROM balenalib/raspberrypi3-debian:buster
 
 # Add Ondrej Sury's apt repo and requirements.
 RUN sudo apt-get update \
@@ -11,7 +11,7 @@ RUN sudo apt-get update \
 RUN sudo apt-get update \
     && sudo apt-get install -y \
        apache2 libapache2-mod-php libpcre3-dev unzip \
-       php7.2-common:armhf php7.2-dev:armhf php7.2-gd:armhf php7.2-curl:armhf php7.2-imap:armhf php7.2-json:armhf php7.2-opcache:armhf php7.2-xml:armhf php7.2-mbstring:armhf php7.2-mysql:armhf php7.2-zip:armhf php-apcu:armhf \
+       php7.3-common:armhf php7.3-dev:armhf php7.3-gd:armhf php7.3-curl:armhf php7.3-imap:armhf php7.3-json:armhf php7.3-opcache:armhf php7.3-xml:armhf php7.3-mbstring:armhf php7.3-mysql:armhf php7.3-zip:armhf php-apcu:armhf \
        mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
