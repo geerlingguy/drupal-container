@@ -2,19 +2,24 @@
 language: python
 services: docker
 
+env:
+  - COMPOSE_DIR=.
+  - COMPOSE_DIR=tests/download-method-git
+
 before_install:
   # Stop MySQL.
   - sudo service mysql stop
 
 install:
   # Install Ansible.
-  - pip install ansible docker-py
+  - pip install ansible docker
 
 script:
   # Build the Drupal environment.
   - 'ansible-playbook main.yml --extra-vars "{build_arm: false}"'
 
   # Verify we get a response from the site.
+  - cd $COMPOSE_DIR
   - docker-compose up -d
   - |
     attempts=0
