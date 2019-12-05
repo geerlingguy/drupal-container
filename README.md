@@ -23,14 +23,21 @@ The easiest way to use this Docker image is to place the `docker-compose.yml` fi
 
 You should be able to access the Drupal site at `http://localhost/`, and if you're installing the first time, the Drupal installer UI should appear. Follow the directions and you'll end up with a brand new Drupal site!
 
-### Automatic Drupal Download/Git clone
+### Automatic Drupal codebase generation
 
-The image downloads Drupal into `/var/www/html` if you don't have a Drupal codebase mounted into that path by default. You can override this behavior (if, for example, you are sharing your codebase into `/var/www/html/web` or elsewhere) by setting the environment variable `DRUPAL_DOWNLOAD_IF_NOT_PRESENT=false`.
+The image downloads Drupal into `/var/www/html` if you don't have a Drupal codebase mounted into that path by default.
 
-You can also control whether you want Drupal to be downloaded via tarball (default is `tarball`) or cloned via Git using the `DRUPAL_DOWNLOAD_METHOD` variable, e.g. `DRUPAL_DOWNLOAD_METHOD=git`. When using `git`, you can also control the following variables:
+You can override this behavior (if, for example, you are sharing your codebase into `/var/www/html/web` or elsewhere) by setting the environment variable `DRUPAL_DOWNLOAD_IF_NOT_PRESENT=false`.
 
-  - `DRUPAL_CLONE_URL`: The URL from which Drupal is cloned.
-  - `DRUPAL_CLONE_BRANCH`: The branch that is checked out.
+There are three methods you can use to generate a Drupal codebase if you don't have one mounted into this container (or `COPY`ed into the container via `Dockerfile`):
+
+  - `DRUPAL_DOWNLOAD_METHOD=tarball` (default): Downloads the latest tarball version of Drupal core.
+  - `DRUPAL_DOWNLOAD_METHOD=git`: Clones Drupal from the git source, with options:
+    - `DRUPAL_CLONE_URL`: The URL from which Drupal is cloned.
+    - `DRUPAL_CLONE_BRANCH`: The branch that is checked out.
+  - `DRUPAL_DOWNLOAD_METHOD=composer`: Creates a new Drupal project using `composer create-project`. If using this method, you should also override the following variables:
+    - `DRUPAL_PROJECT_ROOT=/var/www/html`
+    - `APACHE_DOCUMENT_ROOT=/var/www/html/web`
 
 ### Drupal codebase
 

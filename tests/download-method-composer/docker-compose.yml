@@ -1,0 +1,37 @@
+---
+version: '3'
+
+services:
+  drupal:
+    build: ./
+    image: geerlingguy/drupal:latest
+    container_name: drupal
+    environment:
+      DRUPAL_DATABASE_HOST: drupal-mysql
+      DRUPAL_DATABASE_PORT: 3306
+      DRUPAL_DATABASE_NAME: drupal
+      DRUPAL_DATABASE_USERNAME: drupal
+      DRUPAL_DATABASE_PASSWORD: drupal
+      # Generate a salt with: `php -r "echo bin2hex(random_bytes(25));"`
+      DRUPAL_HASH_SALT: db0de8a1556aa5348f87cfc950cd2c9641713d46e9412c8b05
+      DRUPAL_DOWNLOAD_METHOD: composer
+      DRUPAL_PROJECT_ROOT: /var/www/html
+      APACHE_DOCUMENT_ROOT: /var/www/html/web
+    ports:
+      - "80:80"
+    restart: always
+    # Uncomment the volumes line and set to the local path of your Drupal
+    # installation, if you need to work with a local codebase.
+    # volumes:
+    #   - ~/Sites/drupal-container:/var/www/html:rw,delegated
+
+  mysql:
+    image: mysql:5.7
+    container_name: drupal-mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+    ports:
+      - "3306:3306"

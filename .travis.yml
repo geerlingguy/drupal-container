@@ -5,6 +5,7 @@ services: docker
 env:
   - COMPOSE_DIR=.
   - COMPOSE_DIR=tests/download-method-git
+  - COMPOSE_DIR=tests/download-method-composer
 
 before_install:
   # Stop MySQL.
@@ -36,3 +37,7 @@ script:
         attempts=$(($attempts+1))
         sleep 5
     done
+
+after_failure:
+  # Get logs after a failed run.
+  - docker-compose logs
