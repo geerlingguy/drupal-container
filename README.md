@@ -13,6 +13,7 @@ This project is composed of three main parts:
 Currently maintained versions include:
 
   - `latest`
+  - `latest-arm64`
   - `latest-arm32v7`
 
 ## Standalone Usage
@@ -82,7 +83,7 @@ Make sure Docker is running, and run the playbook to build the container image:
     ansible-playbook main.yml
     
     # Or just build one platform version (e.g. x86):
-    ansible-playbook main.yml --extra-vars "{build_x86: true, build_arm: false}"
+    ansible-playbook main.yml --extra-vars "{build_amd64: true, build_arm64: false, build_arm32: false}"
 
 Once the image is built, you can run `docker images` to see the `drupal` image that was generated.
 
@@ -105,6 +106,7 @@ Currently, the process for updating this image on Docker Hub is manual. Eventual
   1. Push to Docker Hub:
 
          docker push geerlingguy/drupal:latest
+         docker push geerlingguy/drupal:latest-arm64
          docker push geerlingguy/drupal:latest-arm32v7
 
 ## License

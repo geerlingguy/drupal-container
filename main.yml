@@ -4,8 +4,9 @@
   gather_facts: no
 
   vars:
-    build_x86: true
-    build_arm: true
+    build_amd64: true
+    build_arm64: true
+    build_arm32: true
 
   tasks:
     - name: Build the x86 Docker image from the main Dockerfile.
@@ -18,7 +19,26 @@
         tag: latest
         source: build
         force_source: true
-      when: build_x86 | bool
+      when: build_amd64 | bool
+
+    - name: Copy entrypoint into arm64 folder temporarily.
+      copy:
+        src: docker-entrypoint.sh
+        dest: arm64/docker-entrypoint.sh
+        mode: 0755
+
+    - name: Build the arm64 Docker image from the arm Dockerfile.
+      # Can't use docker_image because it doesn't support --platform arg.
+      # See: https://github.com/ansible-collections/community.general/issues/427
+      command: >
+        docker build --platform arm64 --pull -t geerlingguy/drupal:latest-arm64 .
+        chdir=arm64
+      when: build_arm64 | bool
+
+    - name: Remove temporary entrypoint file.
+      file:
+        path: arm64/docker-entrypoint.sh
+        state: absent
 
     - name: Copy entrypoint into arm32v7 folder temporarily.
       copy:
@@ -36,7 +56,7 @@
         tag: latest-arm32v7
         source: build
         force_source: true
-      when: build_arm | bool
+      when: build_arm32 | bool
 
     - name: Remove temporary entrypoint file.
       file:

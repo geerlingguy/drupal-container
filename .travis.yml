@@ -17,7 +17,7 @@ install:
 
 script:
   # Build the Drupal environment.
-  - 'ansible-playbook main.yml --extra-vars "{build_arm: false}"'
+  - 'ansible-playbook main.yml --extra-vars "{build_arm32: false, build_arm64: false}"'
 
   # Verify we get a response from the site.
   - cd $COMPOSE_DIR
