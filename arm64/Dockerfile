@@ -4,7 +4,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 
 # Add Ondrej Sury's apt repo and requirements.
 RUN apt-get update \
-    && apt-get install -y apt-transport-https lsb-release ca-certificates wget git \
+    && apt-get install -y apt-transport-https lsb-release ca-certificates curl wget git \
     && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
     && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list \
     && rm -rf /var/lib/apt/lists/*
