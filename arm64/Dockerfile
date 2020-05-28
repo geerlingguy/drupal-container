@@ -14,7 +14,7 @@ RUN apt-get update \
     && apt-get install -y \
        apache2 libapache2-mod-php libpcre3-dev unzip \
        php7.3-common php7.3-dev php7.3-gd php7.3-curl php7.3-imap php7.3-json php7.3-opcache php7.3-xml php7.3-mbstring php7.3-mysql php7.3-zip php-apcu \
-       mariadb-client \
+       mariadb-client --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
