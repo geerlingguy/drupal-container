@@ -57,6 +57,7 @@ For example, to set up the database connection, pass settings like `DRUPAL_DATAB
       'database' => getenv('DRUPAL_DATABASE_NAME'),
       'username' => getenv('DRUPAL_DATABASE_USERNAME'),
       'password' => getenv('DRUPAL_DATABASE_PASSWORD'),
+      'prefix' => getenv('DRUPAL_DATABASE_PREFIX'),
       'host' => getenv('DRUPAL_DATABASE_HOST'),
       'port' => getenv('DRUPAL_DATABASE_PORT'),
     ];
@@ -81,7 +82,7 @@ Before using this project to build and maintain Drupal images for Docker, you ne
 Make sure Docker is running, and run the playbook to build the container image:
 
     ansible-playbook main.yml
-    
+
     # Or just build one platform version (e.g. x86):
     ansible-playbook main.yml --extra-vars "{build_amd64: true, build_arm64: false, build_arm32: false}"
 

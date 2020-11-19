@@ -65,7 +65,7 @@ if [ ! -f $APACHE_DOCUMENT_ROOT/index.php ] && [ $DRUPAL_DOWNLOAD_IF_NOT_PRESENT
   'database' => '$DRUPAL_DATABASE_NAME',
   'username' => '$DRUPAL_DATABASE_USERNAME',
   'password' => '$DRUPAL_DATABASE_PASSWORD',
-  'prefix' => '',
+  'prefix' => '$DRUPAL_DATABASE_PREFIX',
   'host' => '$DRUPAL_DATABASE_HOST',
   'port' => '$DRUPAL_DATABASE_PORT',
   'namespace' => 'Drupal\\\\Core\\\\Database\\\\Driver\\\\mysql',
