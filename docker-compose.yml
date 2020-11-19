@@ -12,6 +12,7 @@ services:
       DRUPAL_DATABASE_NAME: drupal
       DRUPAL_DATABASE_USERNAME: drupal
       DRUPAL_DATABASE_PASSWORD: drupal
+      DRUPAL_DATABASE_PREFIX: drupal
       # Generate a salt with: `php -r "echo bin2hex(random_bytes(25));"`
       DRUPAL_HASH_SALT: db0de8a1556aa5348f87cfc950cd2c9641713d46e9412c8b05
     ports:
