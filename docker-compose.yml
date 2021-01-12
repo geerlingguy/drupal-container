@@ -4,7 +4,7 @@ version: '3'
 services:
   drupal:
     build: ./
-    image: geerlingguy/drupal:latest
+    image: heremias/drupal:latest
     container_name: drupal
     environment:
       DRUPAL_DATABASE_HOST: drupal-mysql
