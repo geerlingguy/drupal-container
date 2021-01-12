@@ -15,7 +15,7 @@
           path: ./
           nocache: true
           pull: true
-        name: geerlingguy/drupal
+        name: heremias/drupal
         tag: latest
         source: build
         force_source: true
@@ -31,7 +31,7 @@
       # Can't use docker_image because it doesn't support --platform arg.
       # See: https://github.com/ansible-collections/community.general/issues/427
       command: >
-        docker build --platform arm64 --pull -t geerlingguy/drupal:latest-arm64 .
+        docker build --platform arm64 --pull -t heremias/drupal:latest-arm64 .
         chdir=arm64
       when: build_arm64 | bool
 
@@ -52,7 +52,7 @@
           path: ./arm32v7/
           nocache: true
           pull: true
-        name: geerlingguy/drupal
+        name: heremias/drupal
         tag: latest-arm32v7
         source: build
         force_source: true
