@@ -1,6 +1,6 @@
 # Drupal Container (Built with Ansible)
 
-[![Build Status](https://travis-ci.org/geerlingguy/drupal-container.svg?branch=master)](https://travis-ci.org/geerlingguy/drupal-container) [![](https://images.microbadger.com/badges/image/geerlingguy/drupal.svg)](https://microbadger.com/images/geerlingguy/drupal "Get your own image badge on microbadger.com")
+[![CI](https://github.com/geerlingguy/drupal-container/workflows/Build/badge.svg?branch=master&event=push)](https://github.com/geerlingguy/drupal-container/actions?query=workflow%3ABuild) [![Docker pulls](https://img.shields.io/docker/pulls/geerlingguy/drupal)](https://hub.docker.com/r/geerlingguy/drupal/)
 
 This project is composed of three main parts:
 

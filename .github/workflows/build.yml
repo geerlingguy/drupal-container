@@ -1,0 +1,101 @@
+---
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "15 2 * * 0"
+
+env:
+  ANSIBLE_FORCE_COLOR: true
+
+jobs:
+  # Test the images build and work correctly.
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compose_dir:
+          - '.'
+          # - 'tests/download-method-git'  # Not working as of 2021-03-01.
+          - 'tests/download-method-composer'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install prerequisites.
+        run: pip3 install ansible docker
+
+      # See: https://github.com/geerlingguy/ansible-role-mysql/issues/422
+      - name: Disable AppArmor.
+        run: |
+            set -x
+            sudo apt-get install apparmor-profiles
+            sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
+            sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
+
+      - name: Build the amd64 image.
+        run: >
+          ansible-playbook main.yml --extra-vars "{build_arm32: false, build_arm64: false}"
+
+      - name: Run the amd64 image and test it.
+        run: |
+          attempts=0
+          max_attempts=60
+
+          cd ${{ matrix.compose_dir }}
+          docker-compose up -d
+
+          echo "Waiting for Drupal to complete setup."
+          until $(curl --output /dev/null --silent --head --fail http://localhost/); do
+            if [ ${attempts} -eq ${max_attempts} ];then
+              echo "Timeout while waiting for Drupal to complete setup."
+              exit 1
+            fi
+
+            printf '.'
+            attempts=$(($attempts+1))
+            sleep 5
+          done
+
+  # If on master branch, build and release images.
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install prerequisites.
+        run: pip3 install ansible docker
+
+      - name: Build the images.
+        run: ansible-playbook main.yml
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push images.
+        run: |
+          docker push geerlingguy/drupal:latest
+          docker push geerlingguy/drupal:latest-arm64
+          docker push geerlingguy/drupal:latest-arm32v7
