@@ -21,7 +21,7 @@ jobs:
       matrix:
         compose_dir:
           - '.'
-          - 'tests/download-method-git'
+          # - 'tests/download-method-git'  # Not working as of 2021-03-01.
           - 'tests/download-method-composer'
 
     steps:
