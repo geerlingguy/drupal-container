@@ -96,7 +96,7 @@ jobs:
       - name: Build the images.
         run: ansible-playbook main.yml
 
-      - name: Check available images.
+      - name: List all images for debugging.
         run: docker images
 
       - name: Login to DockerHub
@@ -105,11 +105,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Check available images.
-        run: docker images
-
       - name: Push images.
         run: |
           docker push geerlingguy/drupal:latest
-          docker push geerlingguy/drupal:latest-arm64
+          # See: https://github.com/geerlingguy/drupal-container/issues/30
+          # docker push geerlingguy/drupal:latest-arm64
           docker push geerlingguy/drupal:latest-arm32v7
