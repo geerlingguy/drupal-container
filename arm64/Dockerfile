@@ -14,7 +14,7 @@ RUN apt-get update \
 # Install Apache and PHP.
 RUN apt-get update \
     && apt-get install -y \
-       apache2 libapache2-mod-php libpcre3-dev unzip \
+       apache2 libapache2-mod-php${php_version} libpcre3-dev unzip \
        php${php_version}-common php${php_version}-dev php${php_version}-gd php${php_version}-curl php${php_version}-imap php${php_version}-opcache php${php_version}-xml php${php_version}-mbstring php${php_version}-mysql php${php_version}-zip php${php_version}-apcu \
        mariadb-client --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
