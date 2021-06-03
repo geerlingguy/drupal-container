@@ -9,11 +9,6 @@
     build_arm32: true
 
   tasks:
-    - name: Ensure docker library is present.
-      pip:
-        name: docker
-        state: present
-
     - name: Build the x86 Docker image from the main Dockerfile.
       docker_image:
         build:
