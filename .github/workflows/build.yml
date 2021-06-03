@@ -91,7 +91,7 @@ jobs:
           install: true
 
       - name: Install prerequisites.
-        run: pip3 install ansible docker
+        run: pip3 install ansible docker six
 
       - name: Build the images.
         run: ansible-playbook main.yml
