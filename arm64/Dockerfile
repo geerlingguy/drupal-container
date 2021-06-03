@@ -13,7 +13,7 @@ RUN apt-get update \
 RUN apt-get update \
     && apt-get install -y \
        apache2 libapache2-mod-php libpcre3-dev unzip \
-       php7.4-common php7.4-dev php7.4-gd php7.4-curl php7.4-imap php7.4-json php7.4-opcache php7.4-xml php7.4-mbstring php7.4-mysql php7.4-zip php-apcu \
+       php8.0-common php8.0-dev php8.0-gd php8.0-curl php8.0-imap php8.0-json php8.0-opcache php8.0-xml php8.0-mbstring php8.0-mysql php8.0-zip php-apcu \
        mariadb-client --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
