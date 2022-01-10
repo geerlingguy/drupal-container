@@ -44,7 +44,7 @@ There are three methods you can use to generate a Drupal codebase if you don't h
 
 To get your Drupal codebase into the container, you can either `COPY` it in using a Dockerfile, or mount a volume (e.g. when using the image for development). The included `docker-compose.yml` file assumes you have a Drupal codebase at the path `./web`, but you can customize the volume mount to point to wherever your Drupal docroot exists.
 
-If you don't supply a Drupal codebase in the container in `/var/www/html`, this container's `docker-entrypoint.sh` script will download Drupal for you (using the `DRUPAL_DOWNLOAD_VERSION`). By default the image uses the latest development release of Drupal, but you can override it and install a specific version by setting `DRUPAL_DOWNLOAD_VERSION` to that version number (e.g. `8.5.3`).
+If you don't supply a Drupal codebase in the container in `/var/www/html`, this container's `docker-entrypoint.sh` script will download Drupal for you (using the `DRUPAL_DOWNLOAD_VERSION`). By default the image uses the latest development release of Drupal, but you can override it and install a specific version by setting `DRUPAL_DOWNLOAD_VERSION` to that version number (e.g. `9.2.1`).
 
 ### Settings in `settings.php`
 
