@@ -1,8 +1,8 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-ENV php_version="7.4"
+ENV php_version="8.1"
 
 # Add Ondrej Sury's apt repo and requirements.
 RUN apt-get update \

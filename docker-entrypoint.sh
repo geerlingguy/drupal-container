@@ -16,7 +16,7 @@ DRUPAL_DOWNLOAD_METHOD=${DRUPAL_DOWNLOAD_METHOD:-tarball}
 # Drupal URLs and version options.
 DRUPAL_DOWNLOAD_URL="https://www.drupal.org/download-latest/tar.gz"
 DRUPAL_CLONE_URL=${DRUPAL_CLONE_URL:-"https://git.drupalcode.org/project/drupal.git"}
-DRUPAL_CLONE_BRANCH=${DRUPAL_CLONE_BRANCH:-"9.3.x"}
+DRUPAL_CLONE_BRANCH=${DRUPAL_CLONE_BRANCH:-"9.4.x"}
 DRUPAL_PROJECT_VERSION=${DRUPAL_PROJECT_VERSION:-"^9@dev"}
 
 # Allow container to skip the download by setting this to false.

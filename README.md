@@ -92,7 +92,7 @@ Once the image is built, you can run `docker images` to see the `drupal` image t
 
 If you want to quickly run the image and test that the `docker-entrypoint.sh` script works to grab a copy of the Drupal codebase, run it with:
 
-    docker run -d -p 80:80 -v $PWD/web:/var/www/html:rw,delegated geerlingguy/drupal
+    docker run -d -p 80:80 -v $PWD/web:/var/www/html:rw geerlingguy/drupal
 
 Then visit [http://localhost/](http://localhost/), and (after Drupal is downloaded and expanded) you should see the Drupal installer! You can drop the volume mount (`-v`) for a much faster startup, but then the codebase is downloaded and stored inside the container, and will vanish when you stop it.
 

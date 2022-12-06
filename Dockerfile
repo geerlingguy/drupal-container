@@ -1,4 +1,4 @@
-FROM geerlingguy/php-apache:7.4
+FROM geerlingguy/php-apache:8.1
 
 RUN apt-get update \
     && apt-get install -y mariadb-client git \
