@@ -7,7 +7,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: "15 2 * * 0"
+    - cron: "15 3 * * 0"
 
 env:
   ANSIBLE_FORCE_COLOR: true
