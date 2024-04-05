@@ -108,6 +108,5 @@ jobs:
       - name: Push images.
         run: |
           docker push geerlingguy/drupal:latest
-          # See: https://github.com/geerlingguy/drupal-container/issues/30
-          # docker push geerlingguy/drupal:latest-arm64
+          docker push geerlingguy/drupal:latest-arm64
           docker push geerlingguy/drupal:latest-arm32v7

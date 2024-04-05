@@ -28,11 +28,16 @@
         mode: 0755
 
     - name: Build the arm64 Docker image from the arm Dockerfile.
-      # Can't use docker_image because it doesn't support --platform arg.
-      # See: https://github.com/ansible-collections/community.general/issues/427
-      command: >
-        docker build --platform arm64 --pull -t geerlingguy/drupal:latest-arm64 .
-        chdir=arm64
+      docker_image:
+        build:
+          path: ./arm64/
+          nocache: true
+          pull: true
+          platform: linux/arm64
+        name: geerlingguy/drupal
+        tag: latest-arm64
+        source: build
+        force_source: true
       when: build_arm64 | bool
 
     - name: Remove temporary entrypoint file.
