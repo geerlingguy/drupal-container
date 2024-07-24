@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi3-debian:bullseye
+FROM balenalib/raspberrypi3-debian:bookworm
 
 # Add Ondrej Sury's apt repo and requirements.
 RUN sudo apt-get update \
@@ -11,7 +11,7 @@ RUN sudo apt-get update \
 RUN sudo apt-get update \
     && sudo apt-get install -y \
        apache2 libapache2-mod-php libpcre3-dev unzip \
-       php8.1-common:armhf php8.1-dev:armhf php8.1-gd:armhf php8.1-curl:armhf php8.1-imap:armhf php8.1-opcache:armhf php8.1-xml:armhf php8.1-mbstring:armhf php8.1-mysql:armhf php8.1-zip:armhf php-apcu:armhf \
+       php8.2-common:armhf php8.2-dev:armhf php8.2-gd:armhf php8.2-curl:armhf php8.2-imap:armhf php8.2-opcache:armhf php8.2-xml:armhf php8.2-mbstring:armhf php8.2-mysql:armhf php8.2-zip:armhf php-apcu:armhf \
        mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 

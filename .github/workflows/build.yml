@@ -53,7 +53,7 @@ jobs:
           max_attempts=60
 
           cd ${{ matrix.compose_dir }}
-          docker-compose up -d
+          docker compose up -d
 
           echo "Waiting for Drupal to complete setup."
           until $(curl --output /dev/null --silent --head --fail http://localhost/); do

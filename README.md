@@ -20,7 +20,7 @@ Currently maintained versions include:
 
 The easiest way to use this Docker image is to place the `docker-compose.yml` file included with this project in your Drupal site's root directory, then customize it to your liking, and run:
 
-    docker-compose up -d
+    docker compose up -d
 
 You should be able to access the Drupal site at `http://localhost/`, and if you're installing the first time, the Drupal installer UI should appear. Follow the directions and you'll end up with a brand new Drupal site!
 
@@ -44,7 +44,7 @@ There are three methods you can use to generate a Drupal codebase if you don't h
 
 To get your Drupal codebase into the container, you can either `COPY` it in using a Dockerfile, or mount a volume (e.g. when using the image for development). The included `docker-compose.yml` file assumes you have a Drupal codebase at the path `./web`, but you can customize the volume mount to point to wherever your Drupal docroot exists.
 
-If you don't supply a Drupal codebase in the container in `/var/www/html`, this container's `docker-entrypoint.sh` script will download Drupal for you (using the `DRUPAL_DOWNLOAD_VERSION`). By default the image uses the latest development release of Drupal, but you can override it and install a specific version by setting `DRUPAL_DOWNLOAD_VERSION` to that version number (e.g. `9.2.1`).
+If you don't supply a Drupal codebase in the container in `/var/www/html`, this container's `docker-entrypoint.sh` script will download Drupal for you (using the `DRUPAL_DOWNLOAD_VERSION`). By default the image uses the latest development release of Drupal, but you can override it and install a specific version by setting `DRUPAL_DOWNLOAD_VERSION` to that version number (e.g. `10.3.1`).
 
 ### Settings in `settings.php`
 
